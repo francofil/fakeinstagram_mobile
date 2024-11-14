@@ -36,6 +36,8 @@ export const login_styles = StyleSheet.create({
         fontSize: 10,
         color: "darkgrey",
         marginTop: 20,
+
+        flexShrink: 0,
     },
 
     LittleLinkText: {
@@ -44,6 +46,8 @@ export const login_styles = StyleSheet.create({
         fontSize: 10,
         color: "darkgrey",
         margin:20,
+        
+        flexShrink: 0,
     },
 
     LittleRedirectText: {
@@ -52,12 +56,16 @@ export const login_styles = StyleSheet.create({
         fontSize: 10,
         color: "lightblue",
         margin:20,
+
+        flexShrink: 0,
     },
 
     LittleErrorText: {
         color: "red",
         fontWeight: "normal",
         fontSize: 10,
+
+        flexShrink: 0,
     },
 
     LittleInputErrorText: {
@@ -66,6 +74,8 @@ export const login_styles = StyleSheet.create({
         color: "red",
         fontWeight: "normal",
         fontSize: 10,
+
+        flexShrink: 0,
     },
 
     LittleInvisibleText: {

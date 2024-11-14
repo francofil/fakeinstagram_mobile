@@ -5,7 +5,7 @@ export default function Feed() {
     <View
       style={styles.Feed}
     >
-      <Text>Feed</Text>
+      <Text style={{fontWeight: "bold"}}>Feed</Text>
     </View>
   );
 };

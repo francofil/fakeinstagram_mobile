@@ -23,10 +23,6 @@ export default function Login() {
         login_styles.LittleInvisibleText
     );
 
-    const save = async (value) => {
-        await SecureStore.setItemAsync("user", value);
-    };
-
     const login = async () => {
         if (email === "" || password === "") {
             setError(missclick);
@@ -48,8 +44,9 @@ export default function Login() {
             setShowError(
                 login_styles.LittleInvisibleText
             );
-
-            save(JSON.stringify(user)).then(router.replace("/"));
+            
+            SecureStore.setItem("user", JSON.stringify(user.data));
+            router.replace("/");
         }
     };
 
