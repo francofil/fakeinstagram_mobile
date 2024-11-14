@@ -1,6 +1,7 @@
-import origin_url from "./Origin";
+//import origin_url from "./Origin";
+import { url } from "../.url"; // Server del Facu
 
-const default_url = `${origin_url}/api`;
+const default_url = `${url}/api`;
 
 const ApiService = {
     get: async (resource, token) => {
