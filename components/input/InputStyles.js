@@ -12,6 +12,5 @@ export const input_styles = StyleSheet.create({
         borderColor: "grey",
         borderWidth: 1,
         borderRadius: 10,
-
     },
 });
