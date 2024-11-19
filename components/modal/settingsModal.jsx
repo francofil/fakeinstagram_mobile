@@ -23,6 +23,7 @@ export function SettingsModal({ open, setOpen, update, setUpdate }) {
 
         if (res.code === 200) {
             setUpdate(!update);
+            setOpen(false);
         } else {
             setOpen(false);
             Alert.alert("Error", "Couldn't update profile");
