@@ -8,7 +8,7 @@ export default function RootLayout() {
             headerShown: false, tabBarShowLabel: false
         }}>
             <Tabs.Screen
-                name="feed"
+                name="feedstuff"
                 options={{
                     tabBarIcon: ({ color, focused }) => (
                         <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
@@ -16,7 +16,7 @@ export default function RootLayout() {
                 }}
             />
             <Tabs.Screen
-                name="profile"
+                name="myprofile"
                 options={{
                     tabBarIcon: ({ color, focused }) => (
                         <TabBarIcon name={focused ? 'person-circle-sharp' : 'person-circle-outline'} color={color} />

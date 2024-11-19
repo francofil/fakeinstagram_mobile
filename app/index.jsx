@@ -17,5 +17,5 @@ export default function Hangar() {
         return <Redirect href={"/login"} />
     }
 
-    return <Redirect href={"/home/feed"} />
+    return <Redirect href={"/home/feedstuff/feed"} />
 };
