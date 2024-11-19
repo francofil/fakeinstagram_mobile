@@ -41,7 +41,6 @@ export default function Profile() {
     };
 
     const getProfile = async () => {
-        console.log("A")
         const ret = await ProfileService.get_profile(user._id, user.token);
 
         if (ret.code === 200)
@@ -63,7 +62,7 @@ export default function Profile() {
             justifyContent: "center",
             alignItems: "center"
         }}>
-            <Text style={styles.TextError}>Oops! An error happened :^)</Text>
+            <Text style={styles.TextError}>Oops! Still loading :^)</Text>
         </View>;
     }
 

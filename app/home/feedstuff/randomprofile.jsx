@@ -63,7 +63,7 @@ export default function Profile() {
             justifyContent: "center",
             alignItems: "center"
         }}>
-            <Text style={styles.TextError}>Oops! An error happened :^)</Text>
+            <Text style={styles.TextError}>Oops! Still loading :^)</Text>
         </View>;
     }
 

@@ -3,10 +3,6 @@ import { Dimensions, StyleSheet } from "react-native";
 const window = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-    },
-
     Outer: {
         height: "100%",
         width: "100%",
