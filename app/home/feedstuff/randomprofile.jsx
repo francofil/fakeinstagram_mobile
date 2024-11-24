@@ -1,31 +1,52 @@
 import { Text, View, Image, FlatList } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import { BaseButton } from "../../../components/buttons/ButtonComponent";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import ProfileService from "../../../services/ProfileService";
 import ProfilePicComponent from "../../../components/pictures/ProfilePicComponent";
 import { url } from "../../../.url";
-import { SettingsModal } from "../../../components/modal/settingsModal";
 import { styles } from "../profile_styles";
+import { FriendService } from "../../../services/FriendsService";
 
-export default function Profile() {
-    const router = useRouter();
+export default function RandomProfile() {
     const user = JSON.parse(SecureStore.getItem("user"));
 
+    const { user_id } = useLocalSearchParams();
+
     const [user_profile, setProfile] = useState(null);
+    const [myfriends, setMyFriends] = useState(null);
+    const [isfriend, setIsFriend] = useState(false);
 
-    const [open, setOpen] = useState(false); // modal config
-    const [update, setUpdate] = useState(false); // ir a buscar de nuevo cuando cambiamos algo
-
-    const logout = () => {
-        SecureStore.deleteItemAsync("user")
-            .then(router.replace("/"));
+    const getFriends = async () => {
+        const myprof = await ProfileService.get_profile(user._id, user.token);
+        if (myprof.code === 200)
+            setMyFriends(myprof.data.user.friends);
     };
 
-    const settings = () => {
-        setOpen(true);
+    const checkFriend = () => {
+        let boo = false
+        myfriends.forEach(friend => { 
+            if (friend._id === user_id)
+                boo = true; 
+        });
+        setIsFriend(boo)
+        return boo;
     };
+
+    const addFriend = async () => {
+        setIsFriend(true); // Actualizamos antes, así es más responsivo.
+        const res = await FriendService.add(user_id, user.token);
+        if (res.code !== 200)
+            setIsFriend(false);
+    }
+
+    const removeFriend = async () => {
+        setIsFriend(false);
+        const res = await FriendService.remove(user_id, user.token);
+        if (res.code !== 200)
+            setIsFriend(true);
+    }
 
     const renderImages = (item) => {
         return (
@@ -41,8 +62,7 @@ export default function Profile() {
     };
 
     const getProfile = async () => {
-        console.log("A")
-        const ret = await ProfileService.get_profile(user._id, user.token);
+        const ret = await ProfileService.get_profile(user_id, user.token);
 
         if (ret.code === 200)
             setProfile(ret.data)
@@ -50,12 +70,13 @@ export default function Profile() {
 
     useEffect(() => {
         getProfile();
-    }, []);
-
+    }, [isfriend]);
 
     useEffect(() => {
-        getProfile();
-    }, [update]);
+        getFriends();
+        if(myfriends)
+            checkFriend();
+    }, []);
 
     if (!user_profile) {
         return <View style={{
@@ -67,11 +88,9 @@ export default function Profile() {
         </View>;
     }
 
-    //console.log(user_profile)
     return (
         <View style={styles.Outer} >
             <View style={styles.MainView} >
-                <SettingsModal open={open} setOpen={setOpen} update={update} setUpdate={setUpdate} />
                 <View style={styles.HeaderBox}>
                     <ProfilePicComponent size={60} image={user_profile.user.profilePicture} />
                     <View>
@@ -83,18 +102,18 @@ export default function Profile() {
                         </Text>
                     </View>
                     <View style={styles.ButtonBox}>
-                        <BaseButton
-                            icon={"settings-outline"}
+                        {!isfriend ? <BaseButton
+                            icon={"person-add-outline"}
                             size={40}
                             color={"black"}
-                            execute={settings}
-                        />
-                        <BaseButton
-                            icon={"log-out"}
+                            execute={addFriend}
+                        /> : <></>}
+                        {isfriend ? <BaseButton
+                            icon={"person-remove"}
                             size={40}
-                            color={"red"}
-                            execute={logout}
-                        />
+                            color={"cyan"}
+                            execute={removeFriend}
+                        /> : <></>}
                     </View>
                 </View>
 

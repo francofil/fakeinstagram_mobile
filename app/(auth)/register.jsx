@@ -91,7 +91,7 @@ export default function Register() {
     return (
         <View style={login_styles.Outer}>
             <View
-                style={login_styles.MainView}
+                style={login_styles.MainRegisterView}
             >
                 <Text style={login_styles.BigTitleText}>Create Account</Text>
 

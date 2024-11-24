@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
         position: "absolute",
 
         width: "100%",
-        height: "20%",
+        height: "10%",
 
         //borderWidth: 1,
         //borderColor: "black",
@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
         overflow: "visible",
 
         position: "absolute",
-        top: window.height * 0.15,
+        top: window.height * 0.10,
         alignSelf: "flex-start",
 
         width: "100%",
@@ -82,10 +82,10 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
 
         position: "absolute",
-        top: window.height * 0.23,
+        top: window.height * 0.16,
 
         width: "100%",
-        height: "78%",
+        height: window.height * 0.77,
 
         //borderWidth: 1,
         //borderColor: "black",

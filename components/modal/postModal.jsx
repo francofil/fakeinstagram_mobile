@@ -1,35 +1,36 @@
 import { useState } from "react";
-import { Modal, StyleSheet, View, Text, Pressable, Alert } from "react-native"
+import { Modal, StyleSheet, View, Text, Pressable, Alert, Image } from "react-native"
 import * as SecureStore from 'expo-secure-store';
 import { InputComponent } from "../input/InputComponent";
-import ProfileService from "../../services/ProfileService";
+import PostService from "../../services/PostService";
+import { useRouter } from "expo-router";
 
-export function SettingsModal({ open, setOpen, update, setUpdate }) {
+export function PostModal({ uri, open, setOpen, update, setUpdate }) {
     const user = JSON.parse(SecureStore.getItem("user"));
+    const router = useRouter();
 
-    const [username, setName] = useState("");
-    const [profilePicture, setPicture] = useState("");
     const [description, setDescription] = useState("");
 
-    const updateProfile = async () => {
-        const res = await ProfileService.update_profile(
-            {
-                username: username,
-                profilePicture: profilePicture,
-                description: description,
-            },
-            user.token
-        );
+    const postPic = async () => {
+        const formData = new FormData();
+        formData.append("image", {
+            uri: uri,
+            name: 'img.jpg',
+            type: 'image/jpg'
+        });
+        formData.append("caption", description);
 
-        if (res.code === 200 || res.code === 201) {
+        const res = await PostService.upload_post(formData, user.token);
+
+        if (res.code === 201) {
             setUpdate(!update);
             setOpen(false);
+            router.back();
         } else {
             setOpen(false);
-            Alert.alert("Error", "Couldn't update profile");
+            Alert.alert("Error", "Couldn't post picture");
         }
     };
-
 
     return (
         <Modal
@@ -41,26 +42,20 @@ export function SettingsModal({ open, setOpen, update, setUpdate }) {
             <View style={styles.CenteredView}>
                 <View style={styles.ModalView}>
                     <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                        Edit profile
+                        Post picture
                     </Text>
 
-                    <InputComponent updateInput={setName} />
-                    <Text style={styles.Label}>
-                        Username
-                    </Text>
-
-                    <InputComponent updateInput={setPicture} />
-                    <Text style={styles.Label}>
-                        Profile pic (paste URL)
-                    </Text>
+                    <View style={{ aspectRatio: 1 }} >
+                        <Image style={styles.Image} source={{ uri: uri }} />
+                    </View>
 
                     <InputComponent updateInput={setDescription} />
                     <Text style={styles.Label}>
-                        Description
+                        Caption
                     </Text>
 
-                    <Pressable onPress={updateProfile}>
-                        <Text style={styles.Button}>Confirm changes</Text>
+                    <Pressable onPress={postPic}>
+                        <Text style={styles.Button}>Post</Text>
                     </Pressable>
                 </View>
             </View>
@@ -102,7 +97,16 @@ const styles = StyleSheet.create({
 
     Button: {
         fontWeight: "bold",
-        marginTop: 20,
+        marginTop: 10,
         color: "red",
-    }
+    },
+
+    Image: {
+        flex: 1,
+        maxWidth: 200,
+        maxHeight: 200,
+        resizeMode: "cover",
+        borderRadius: 8,
+        margin: 10,
+    },
 });

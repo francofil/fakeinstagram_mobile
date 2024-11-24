@@ -1,16 +1,16 @@
 import ApiService from "./ApiService"
 
 const PostService = {
-    upload_post: async (image, caption, token) => {
-        const post = {
-            image: image,
-            caption: caption,
-        };
+    upload_post: async (post, token) => {
+    //upload_post: async (image, caption, token) => {
+        //const post = {
+        //    image: image,
+        //    caption: caption,
+        //};
 
-        const res = await ApiService.post(
+        const res = await ApiService.post_formData(
             "posts/upload",
             post,
-            "multipart/form-data",
             token
         );
 

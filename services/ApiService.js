@@ -46,6 +46,27 @@ const ApiService = {
         return response;
     },
 
+    post_formData: async (resource, body, token) => {
+        const request = {
+            method: "POST",
+            body: body,
+            headers: {
+                "Authorization": `Bearer: ${token}`,
+            },
+        };
+
+        const api_response = await fetch(`${default_url}/${resource}`, request);
+
+        console.log(`POST: ${api_response.status}, ${api_response.statusText}`);
+
+        const response = { code: api_response.status, data: null };
+
+        if (api_response.ok)
+            response.data = await api_response.json();
+
+        return response;
+    },
+
     delete: async (resource, token) => {
         const request = {
             method: "DELETE",
@@ -65,7 +86,7 @@ const ApiService = {
 
         return response;
     },
-    
+
     put: async (resource, data, token) => {
         const request = {
             method: "PUT",

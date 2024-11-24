@@ -2,21 +2,22 @@ import { Text, View, Image, FlatList } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import { BaseButton } from "../../components/buttons/ButtonComponent";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProfileService from "../../services/ProfileService";
 import ProfilePicComponent from "../../components/pictures/ProfilePicComponent";
 import { url } from "../../.url";
 import { SettingsModal } from "../../components/modal/settingsModal";
 import { styles } from "./profile_styles";
+import { UpdateContext } from "../../services/UpdateContext";
 
-export default function Profile() {
+export default function MyProfile() {
     const router = useRouter();
     const user = JSON.parse(SecureStore.getItem("user"));
+    const manager = useContext(UpdateContext);
 
     const [user_profile, setProfile] = useState(null);
 
     const [open, setOpen] = useState(false); // modal config
-    const [update, setUpdate] = useState(false); // ir a buscar de nuevo cuando cambiamos algo
 
     const logout = () => {
         SecureStore.deleteItemAsync("user")
@@ -48,13 +49,9 @@ export default function Profile() {
     };
 
     useEffect(() => {
+        //logout()
         getProfile();
-    }, []);
-
-
-    useEffect(() => {
-        getProfile();
-    }, [update]);
+    }, [manager.update]);
 
     if (!user_profile) {
         return <View style={{
@@ -66,11 +63,15 @@ export default function Profile() {
         </View>;
     }
 
-    //console.log(user_profile)
     return (
         <View style={styles.Outer} >
             <View style={styles.MainView} >
-                <SettingsModal open={open} setOpen={setOpen} update={update} setUpdate={setUpdate} />
+                <SettingsModal
+                    open={open}
+                    setOpen={setOpen}
+                    update={manager.update}
+                    setUpdate={manager.setUpdate}
+                />
                 <View style={styles.HeaderBox}>
                     <ProfilePicComponent size={60} image={user_profile.user.profilePicture} />
                     <View>

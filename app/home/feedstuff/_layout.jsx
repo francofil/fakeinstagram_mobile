@@ -5,6 +5,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="feed" />
             <Stack.Screen name="randomprofile" />
+            <Stack.Screen name="cameraview" />
         </Stack>
     );
 }

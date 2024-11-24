@@ -17,7 +17,19 @@ export const login_styles = StyleSheet.create({
         width: "90%",
         borderRadius: 20,
 
-        justifyContent: "space-evenly",
+        justifyContent: "space-around",
+        alignItems: "center",
+        alignSelf: "center",
+        backgroundColor: "white",
+    },
+
+    MainRegisterView: {
+        flex: 1,
+        maxHeight: window.height * 0.7,
+        width: "90%",
+        borderRadius: 20,
+
+        justifyContent: "space-around",
         alignItems: "center",
         alignSelf: "center",
         backgroundColor: "white",
@@ -35,7 +47,7 @@ export const login_styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 10,
         color: "darkgrey",
-        marginTop: 20,
+        marginTop: 10,
 
         flexShrink: 0,
     },
@@ -79,6 +91,8 @@ export const login_styles = StyleSheet.create({
     },
 
     LittleInvisibleText: {
-        fontSize: 0,
+        color: "white",
+        fontSize: 1,
+        position: "absolute",
     },
 });
