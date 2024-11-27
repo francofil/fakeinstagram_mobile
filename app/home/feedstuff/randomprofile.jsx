@@ -74,7 +74,6 @@ export default function RandomProfile() {
     }, [isfriend]);
 
     useEffect(() => {
-        //getFriends();
         if(myfriends)
             checkFriend();
     }, [isfriend, myfriends]);
