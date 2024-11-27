@@ -70,13 +70,14 @@ export default function RandomProfile() {
 
     useEffect(() => {
         getProfile();
+        getFriends();
     }, [isfriend]);
 
     useEffect(() => {
-        getFriends();
+        //getFriends();
         if(myfriends)
             checkFriend();
-    }, []);
+    }, [isfriend, myfriends]);
 
     if (!user_profile) {
         return <View style={{
@@ -88,6 +89,7 @@ export default function RandomProfile() {
         </View>;
     }
 
+    console.log(isfriend)
     return (
         <View style={styles.Outer} >
             <View style={styles.MainView} >
